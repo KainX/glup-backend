@@ -14,6 +14,19 @@ class Api_model extends CI_Model {
 		}
 		return false;
 	}
+
+	public function registerUser($name, $cel, $email, $pass){
+		$result = $this->db->query("INSERT INTO clientes(clientes_nombre, celular, email, password) VALUES('$name', '$cel', '$email', '$pass')") or die(mysql_error());
+		if($result){
+			return true;
+		}
+		return false;
+	}
+
+	public function getAllProducts(){
+		$result = $this->db->query("SELECT * FROM productos");
+		return $result;
+	}
 }
 /* End of file Api_model.php */
 /* Location: ./application/models/Api_model.php */

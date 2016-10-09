@@ -9,7 +9,15 @@ class Api extends CI_Controller{
 
 	public function index(){
 		$this->load->model('Api_model');
-		$this->login();
+		$dataType = $this->input->post('DataType');
+		if($dataType == "login"){
+			$this->login();
+		}else if($dataType == "registerUser"){
+			$this->registerUser();
+		}elseif ($dataType == "getAllProducts") {
+			$this->getAllProducts();
+		}
+		
 	}
 
 	public function login(){
@@ -23,5 +31,44 @@ class Api extends CI_Controller{
 			$data["Msg"] = "Incorrect user or password";
 		}
 		echo json_encode($data); //Send the data encoded as JSON
+	}
+
+	public function registerUser(){
+		$name = $this->input->post('name');
+		$cel = $this->input->post('cel');
+		$email = $this->input->post('email');
+		$pass = $this->input->post('pass');
+		$data["DataType"] = $this->input->post('DataType');
+		if(($status = $this->Api_model->registerUser($name, $cel, $email, $pass))){
+			$data["Status"] = "ok";
+		}else{
+			$data["Status"] = "error";
+			$data["Msg"] = "Error registering new user, try again later";
+		}
+		echo json_encode($data);
+	}
+
+	public function getAllProducts(){
+		$data["DataType"] = $this->input->post('DataType');
+		$products = $this->Api_model->getAllProducts();
+		if($products != false){
+			if($products->num_rows()>0){
+				$post = array();
+				foreach ($products->result_array() as $row) {				
+					$cat_id = $row['categorias_id'];
+					$name = $row['productos_nombre'];
+					$post[] = array('cat_id' => $cat_id, 'name' => $name);
+				}
+				$data["Status"] = "ok";
+				$data["Products"] = $post;
+			}else{
+				$data["Status"] = "error";
+				$data["Msg"] = "Empty result";
+			}
+		}else{
+			$data["Status"] = "error";
+			$data["Msg"] = "Error retrieving info";
+		}
+		echo json_encode($data);
 	}
 }
