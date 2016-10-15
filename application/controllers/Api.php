@@ -57,7 +57,8 @@ class Api extends CI_Controller{
 				foreach ($products->result_array() as $row) {				
 					$cat_id = $row['categorias_id'];
 					$name = $row['productos_nombre'];
-					$post[] = array('cat_id' => $cat_id, 'name' => $name);
+					$img_url = $row['foto_portada'];
+					$post[] = array('cat_id' => $cat_id, 'name' => $name, 'img_url' => $img_url);
 				}
 				$data["Status"] = "ok";
 				$data["Products"] = $post;
