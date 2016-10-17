@@ -27,6 +27,12 @@ class Api_model extends CI_Model {
 		$result = $this->db->query("SELECT * FROM productos");
 		return $result;
 	}
+
+	public function getHashPass($user){
+		$pass = $this->db->query("SELECT password FROM clientes WHERE email = '$user'");
+		$row = $pass->row();
+		return $row->password;
+	}
 }
 /* End of file Api_model.php */
 /* Location: ./application/models/Api_model.php */
