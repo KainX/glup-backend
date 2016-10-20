@@ -5,7 +5,7 @@
     */
     class AES {
 
-      protected $key = '1xB8oBQgXGPhcK0DoQkP1Uj4CRZ7Sy1c';
+      protected $key = '4d1$hk3yka1z3n:)';
       protected $cipher = MCRYPT_RIJNDAEL_128;
       //protected $data;
       protected $mode = MCRYPT_MODE_ECB;

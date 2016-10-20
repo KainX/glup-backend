@@ -16,8 +16,10 @@ class Api extends CI_Controller{
 			$this->registerUser();
 		}elseif ($dataType == "getAllProducts") {
 			$this->getAllProducts();
-		}elseif ($dataType == "pass") {
-			$this->pass();
+		}elseif ($dataType == "encode") {
+			$this->encode_string();
+		}elseif ($dataType == "decode") {
+			$this->decode_string();
 		}else{
 			echo "Invalid parama";
 		}
@@ -90,6 +92,18 @@ class Api extends CI_Controller{
 			$data["Msg"] = "Error retrieving info";
 		}
 		echo json_encode($data);
+	}
+
+	public function encode_string(){
+		require_once('AES.php');	
+		$aes = new AES();
+		echo $aes->encrypt($this->input->post('str'));
+	}
+
+	public function decode_string(){
+		require_once('AES.php');	
+		$aes = new AES();
+		echo $aes->decrypt($this->input->post('str'));
 	}
 /*
 	public function pass(){
