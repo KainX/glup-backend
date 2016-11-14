@@ -6,7 +6,7 @@ class Api_model extends CI_Model {
 	function __construct(){
 		parent::__construct();
 	}
-
+	/*
 	public function login($user, $pass){
 		$result = $this->db->query("SELECT email FROM clientes WHERE email ='$user' AND password = '$pass'");
 		if($result->num_rows()>0){
@@ -14,7 +14,7 @@ class Api_model extends CI_Model {
 		}
 		return false;
 	}
-
+	*/
 	public function registerUser($name, $cel, $email, $pass){
 		$result = $this->db->query("INSERT INTO clientes(clientes_nombre, celular, email, password) VALUES('$name', '$cel', '$email', '$pass')") or die(mysql_error());
 		if($result){
@@ -28,10 +28,10 @@ class Api_model extends CI_Model {
 		return $result;
 	}
 
-	public function getHashPass($user){
-		$pass = $this->db->query("SELECT password FROM clientes WHERE email = '$user'");
+	public function login($user){
+		$pass = $this->db->query("SELECT password, clientes_nombre FROM clientes WHERE email = '$user'");
 		$row = $pass->row();
-		return $row->password;
+		return $row;
 	}
 }
 /* End of file Api_model.php */

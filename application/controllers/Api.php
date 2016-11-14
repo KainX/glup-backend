@@ -21,7 +21,7 @@ class Api extends CI_Controller{
 		}elseif ($dataType == "decode") {
 			$this->decode_string();
 		}else{
-			echo "Invalid param";
+			echo "Invalid parameter";
 		}
 		
 	}
@@ -35,10 +35,11 @@ class Api extends CI_Controller{
 		$username = $aes->decrypt($encrypted_user);
 		$pass = $aes->decrypt($encrypted_pass);
 
-		$data["DataType"] = $this->input->post('DataType'); //Get the DataType post data
-		if(password_verify($pass, $this->Api_model->getHashPass($username))){//($status = $this->Api_model->login($username, $pass))){ //Get the result from the login function in Api_model.php
+		$data["DataType"] = $this->input->post('DataType'); // Get the DataType post data
+		$login_query = $this->Api_model->login($username); // Query data from the DB according to the username parameter
+		if(password_verify($pass, $login_query->password)){ // Get the result from the login function in Api_model.php
 			$data["Status"] = "ok";
-			$data["UserName"] = $username;
+			$data["UserName"] = $login_query->clientes_nombre;
 		}else{
 			$data["Status"] = "error";
 			$data["Msg"] = "Incorrect user or password";
